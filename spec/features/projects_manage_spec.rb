@@ -62,13 +62,17 @@ RSpec.describe "managing projects", js: true do
   end
 
   context "Sub-Projects" do
+    let(:parent_project_path) { project_path(id: project.id) }
+
     it "allows me to add sub projects" do
-      visit project_path(id: project.id)
+      visit parent_project_path
+
       click_link "Add Sub-Project"
       fill_in "project[title]", with: "Super Sub Project"
       click_button "Create"
+
       expect(page).to have_content "Project created!"
-      expect(current_path).to eq projects_path
+      expect(current_path).to eq parent_project_path
     end
 
     it "lists available sub projects with a link" do
@@ -96,6 +100,7 @@ RSpec.describe "managing projects", js: true do
 
         click_link sub_project_one.title
       end
+
       expect(current_path).to eq project_path(sub_project_one)
     end
   end

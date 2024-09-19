@@ -60,7 +60,16 @@ RSpec.describe ProjectsController, type: :controller do
         }.to change(Project, :count).by(1)
       end
 
-      it "redirects to the projects", :focus do
+      context "sub projects" do
+        let(:valid_params) { attributes_for(:project, parent_id: project.id) }
+
+        it "creates a new sub project" do
+          post :create, params: { project: valid_params }
+          expect(response).to redirect_to project_path(project)
+        end
+      end
+
+      it "redirects to the projects" do
         post :create, params: {project: valid_params}
         expect(response).to redirect_to project_path(assigns(:project))
       end

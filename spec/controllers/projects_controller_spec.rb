@@ -60,10 +60,9 @@ RSpec.describe ProjectsController, type: :controller do
         }.to change(Project, :count).by(1)
       end
 
-      it "redirects to the projects" do
+      it "redirects to the projects", :focus do
         post :create, params: {project: valid_params}
-
-        expect(response).to redirect_to "/projects"
+        expect(response).to redirect_to project_path(assigns(:project))
       end
     end
 
